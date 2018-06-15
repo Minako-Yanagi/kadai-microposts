@@ -19,11 +19,8 @@ class MicropostsController extends Controller
                 'user' => $user,
                 'microposts' => $microposts,
             ];
-            $data += $this->counts($user);
-            return view('users.show', $data);
-        }else {
-            return view('welcome',$data);
         }
+        return view('welcome', $data);
     }
     public function store(Request $request)
     {
@@ -34,6 +31,16 @@ class MicropostsController extends Controller
         $request->user()->microposts()->create([
             'content' => $request->content,
         ]);
+
+        return redirect()->back();
+    }
+    public function destroy($id)
+    {
+        $micropost = \App\Micropost::find($id);
+
+        if (\Auth::id() === $micropost->user_id) {
+            $micropost->delete();
+        }
 
         return redirect()->back();
     }
