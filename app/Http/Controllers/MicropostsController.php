@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Controller;
-
 class MicropostsController extends Controller
 {
     public function index()
@@ -38,7 +36,7 @@ class MicropostsController extends Controller
     {
         $micropost = \App\Micropost::find($id);
 
-        if (\Auth::id() === $micropost->user_id) {
+        if (\Auth::user()->id === $micropost->user_id) {
             $micropost->delete();
         }
 
